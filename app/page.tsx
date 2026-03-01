@@ -6,6 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { AuthModal } from "@/components/auth/AuthModal"
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -23,6 +24,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 
 // Animation Configs
 const fadeInUp = {
@@ -86,10 +89,25 @@ const features = [
 ];
 
 export default function LandingPage() {
+  const router = useRouter()
   const { setTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+
+ useEffect(()=>{
+  const {data: {subscription},} =supabase.auth.onAuthStateChange((event,session)=>{
+    if(session){
+      router.push('/dashboard')
+    }
+  });
+  supabase.auth.getSession().then(({data: {session}})=>{
+    if(session){
+      router.push('/')
+    }
+  })
+  return () =>subscription.unsubscribe();
+ },[router])
 
   useEffect(() => {
     setMounted(true);
@@ -107,7 +125,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors duration-300 overflow-hidden">
+    <div className="min-h-screen bg-background  overflow-hidden">
       {/* Navbar */}
       <motion.nav
         initial={{ opacity: 0, y: -20 }}
@@ -120,7 +138,7 @@ export default function LandingPage() {
             className="flex items-center gap-2"
             whileHover={{ scale: 1.02 }}
           >
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-accent to-accent/70 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-xl bg-linear-to-br from-accent to-accent/70 flex items-center justify-center">
               <BarChart3 className="h-5 w-5 text-accent-foreground" />
             </div>
             <span className="font-display text-xl font-bold">FinanceFlow</span>
@@ -183,11 +201,12 @@ export default function LandingPage() {
 
             <motion.h1
               variants={fadeInUp}
-              className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+              className="text-4xl md:text-7xl font-bold  leading-tight"
             >
-              Transform Your{" "}
-              <span className="text-emerald-500">Financial Data</span> Into
-              Insights
+              Transform Your <br />
+              <span className="text-emerald-500">
+                Financial Data
+              </span> <br /> Into Insights
             </motion.h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
@@ -225,7 +244,7 @@ export default function LandingPage() {
                 <div className="w-3 h-3 rounded-full bg-warning/60" />
                 <div className="w-3 h-3 rounded-full bg-accent/60" />
               </div>
-              <div className="p-8 bg-gradient-to-b from-card to-background">
+              <div className="p-8 bg-linear-to-b from-card to-background">
                 <div className="grid md:grid-cols-3 gap-6">
                   {/* Card 1 */}
                   <div className="p-6 rounded-xl bg-background border border-border">
@@ -256,7 +275,7 @@ export default function LandingPage() {
                   {/* Card 3 */}
                   <div className="p-6 rounded-xl bg-background border border-border">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 rounded-lg bg-accent/10">
+                      <div className="p-2 rounded-lg bg-warning/10">
                         <PieChart className="h-5 w-5 text-accent" />
                       </div>
                       <span className="font-medium">Profit Margin</span>
@@ -301,9 +320,9 @@ export default function LandingPage() {
         </div>
       </section>
       <section className="py-24 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-accent/5" />
+        <div className="absolute inset-0 bg-linear-to-r from-primary/5 to-accent/5" />
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
+          <motion.div
             className="max-w-3xl mx-auto text-center"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -313,7 +332,8 @@ export default function LandingPage() {
               Ready to Transform Your Finances?
             </h2>
             <p className="text-lg text-muted-foreground mb-10">
-              Join thousands of businesses making smarter financial decisions with FinanceFlow.
+              Join thousands of businesses making smarter financial decisions
+              with FinanceFlow.
             </p>
             <Button size="xl" onClick={openSignup} className="gap-2">
               Get Started for Free
@@ -324,9 +344,14 @@ export default function LandingPage() {
       </section>
       <footer className="py-12 border-t border-border bg-card">
         <div className="container mx-auto px-4 text-center text-muted-foreground">
-          <p>© 2024 FinanceFlow. All Rights Reserved.</p>
+          <p>© 2026 FinanceFlow. All Rights Reserved.</p>
         </div>
       </footer>
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        defaultMode={authMode}
+      />
     </div>
   );
 }
