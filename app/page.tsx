@@ -1,5 +1,4 @@
-"use client";
-import Image from "next/image";
+"use client"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/integrations/supabase/client";
 
 // Animation Configs
 const fadeInUp = {
@@ -98,12 +97,12 @@ export default function LandingPage() {
  useEffect(()=>{
   const {data: {subscription},} =supabase.auth.onAuthStateChange((event,session)=>{
     if(session){
-      router.push('/dashboard')
+      router.replace('/dashboard')
     }
   });
   supabase.auth.getSession().then(({data: {session}})=>{
     if(session){
-      router.push('/')
+      router.replace('/')
     }
   })
   return () =>subscription.unsubscribe();

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2, Mail, Lock, BarChart3 } from "lucide-react";
 import { SocialLoginButtons } from "./SocialLoginButton";
@@ -16,7 +16,11 @@ interface LoginFormProps {
   onClose: () => void;
 }
 
-export function LoginForm({onSwitchToSignup,onSwitchToForgotPassword,onClose,}: LoginFormProps) {
+export function LoginForm({
+  onSwitchToSignup,
+  onSwitchToForgotPassword,
+  onClose,
+}: LoginFormProps) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,11 +38,12 @@ export function LoginForm({onSwitchToSignup,onSwitchToForgotPassword,onClose,}: 
 
       if (error) {
         toast.error(error.message);
-      } else {
-        toast.success("Welcome back!");
-        onClose(); // close modal first
-        router.push("/dashboard"); // then navigate
+        return;
       }
+
+      toast.success("Welcome back!");
+
+      router.replace("/dashboard");
     } catch (err) {
       toast.error("Something went wrong");
     } finally {
@@ -50,7 +55,7 @@ export function LoginForm({onSwitchToSignup,onSwitchToForgotPassword,onClose,}: 
     <div className="p-6">
       {/* Header */}
       <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-gradient-to-br from-accent to-accent/70 mb-4">
+        <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-linear-to-br from-accent to-accent/70 mb-4">
           <BarChart3 className="h-6 w-6 text-accent-foreground" />
         </div>
 
@@ -133,9 +138,7 @@ export function LoginForm({onSwitchToSignup,onSwitchToForgotPassword,onClose,}: 
 
       {/* Footer */}
       <div className="mt-6 text-center text-sm">
-        <span className="text-muted-foreground">
-          Don't have an account?{" "}
-        </span>
+        <span className="text-muted-foreground">Don't have an account? </span>
 
         <button
           type="button"
