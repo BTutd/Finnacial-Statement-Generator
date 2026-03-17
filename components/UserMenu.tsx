@@ -93,7 +93,11 @@ const UserMenu = () => {
           <ChevronDown className="h-4 w-4 text-muted-foreground" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" sideOffset={8} className="w-48 ">
+      <DropdownMenuContent
+        align="end"
+        sideOffset={8}
+        className="w-48 bg-white "
+      >
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">

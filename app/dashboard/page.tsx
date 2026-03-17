@@ -126,6 +126,20 @@ export default function Dashboard() {
   const [transactions, setTransactions] = useState<TransactionData[]>([]);
   const [showOutput, setShowOutput] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
+
+  // Prevent back button navigation to callback/landing
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // Prevent the back navigation and reload the dashboard instead
+      window.location.reload();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
   const handleGenerate = () => {
     setShowOutput(true);
   };

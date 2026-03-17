@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { symbol } from 'framer-motion/client';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -61,7 +62,7 @@ function TickerCard({ item, index }: { item: typeof tickerData[0]; index: number
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: index * 0.08, duration: 0.4 }}
       whileHover={{ scale: 1.05, y: -4 }}
-      className="flex-shrink-0 w-52 p-4 rounded-xl bg-card/80 backdrop-blur border border-border hover:border-accent/40 transition-colors cursor-default select-none"
+      className="shrink-0 w-52 p-4 rounded-xl bg-card/80 backdrop-blur border border-border hover:border-accent/40 transition-colors cursor-default select-none"
     >
       <div className="flex items-center justify-between mb-2">
         <span className="font-display font-bold text-foreground text-sm">{item.symbol}</span>
@@ -96,7 +97,7 @@ function TickerCard({ item, index }: { item: typeof tickerData[0]; index: number
 
 export function AnimatedTicker({ reverse = false }: { reverse?: boolean }) {
   return (
-    <div className="w-full overflow-hidden py-4">
+    <div className="w-full overflow-hidden py-4 pointer-events-none">
       <motion.div
         className="flex gap-4"
         animate={{ x: reverse ? ['-50%', '0%'] : ['0%', '-50%'] }}

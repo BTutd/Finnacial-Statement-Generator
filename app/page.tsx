@@ -1,11 +1,11 @@
-"use client"
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AuthModal } from "@/components/auth/AuthModal"
+import { AuthModal } from "@/components/auth/AuthModal";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -25,7 +25,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/integrations/supabase/client";
-import { AnimatedTicker } from '@/components/AnimatedTicker';
+import { AnimatedTicker } from "@/components/AnimatedTicker";
 
 // Animation Configs
 const fadeInUp = {
@@ -89,25 +89,23 @@ const features = [
 ];
 
 export default function LandingPage() {
-  const router = useRouter()
+  const router = useRouter();
   const { setTheme, theme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
 
- useEffect(()=>{
-  const {data: {subscription},} =supabase.auth.onAuthStateChange((event,session)=>{
-    if(session){
-      router.replace('/dashboard')
-    }
-  });
-  supabase.auth.getSession().then(({data: {session}})=>{
-    if(session){
-      router.replace('/')
-    }
-  })
-  return () =>subscription.unsubscribe();
- },[router])
+  useEffect(() => {
+    const checkAuth = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session) {
+        router.replace("/dashboard");
+      }
+    };
+    checkAuth();
+  }, [router]);
 
   useEffect(() => {
     setMounted(true);
@@ -188,11 +186,11 @@ export default function LandingPage() {
             animate="animate"
             className="max-w-4xl mx-auto"
           >
-              <div className="absolute inset-0 flex flex-col justify-center gap-6 opacity-[0.18]">
-            <AnimatedTicker />
-            <AnimatedTicker reverse />
-            <AnimatedTicker />
-          </div>
+            <div className="absolute inset-0 flex flex-col justify-center gap-6 opacity-[0.18] pointer-events-none">
+              <AnimatedTicker />
+              <AnimatedTicker reverse />
+              <AnimatedTicker />
+            </div>
             {/* Badge Fix */}
             <motion.div
               variants={fadeInUp}
@@ -220,16 +218,18 @@ export default function LandingPage() {
             </p>
 
             <div className="flex justify-center gap-4">
-              <Button
-                size="xl"
-                onClick={openSignup}
-                className="bg-primary text-primary-foreground"
+            <Button size="xl" onClick={openSignup} className="gap-2 group ">
+              Start Free Trial
+              <motion.span
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 0.5, repeat: Infinity }}
               >
-                Start Free Trial <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-              <Button size="xl" variant="outline" onClick={openLogin}>
-                Sign In
-              </Button>
+                <ArrowRight className="h-5 w-5" />
+              </motion.span>
+            </Button>
+            <Button size="xl" variant="outline" onClick={openLogin}>
+              Sign In
+            </Button>
             </div>
           </motion.div>
 
