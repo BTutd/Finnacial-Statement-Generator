@@ -19,10 +19,10 @@ export default function StatementTypeTabs({
       onValueChange={(v) => onChange(v as StatementType)}
       className="w-full"
     >
-      <TabsList className="grid w-full grid-cols-5 h-auto p-1 bg-secondary">
+      <TabsList className="grid w-full grid-cols-5 my-2 h-auto  bg-secondary">
         <TabsTrigger
           value="income"
-          className="flex items-center gap-2 py-3 data-[state=active]:bg-card data-[state=active]:shadow-soft"
+          className="flex items-center gap-2 py-2 data-[state=active]:bg-card data-[state=active]:shadow-soft"
         >
           <FileText className="h-4 w-4" />
           <span className="hidden sm:inline">Income Statement</span>
@@ -30,7 +30,7 @@ export default function StatementTypeTabs({
         </TabsTrigger>
         <TabsTrigger
           value="balance"
-          className="flex items-center gap-2 py-3 data-[state=active]:bg-card data-[state=active]:shadow-soft"
+          className="flex items-center gap-2 data-[state=active]:bg-card data-[state=active]:shadow-soft"
         >
           <Scale className="h-4 w-4" />
           <span className="hidden sm:inline">Balance Sheet</span>

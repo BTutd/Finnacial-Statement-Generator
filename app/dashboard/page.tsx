@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Header from "@/components/Header";
 import StatementTypeTabs from "@/components/StatementTypeTabs";
 import {
@@ -16,7 +16,14 @@ import { BalanceSheetForm } from "@/components/BalanceSheetForm";
 import { CashFlowForm } from "@/components/CashFlowForm";
 import { OwnersEquityForm } from "@/components/OwnersEquityForm";
 import { Button } from "@/components/ui/button";
-import { FileText, Printer, RotateCcw, Sparkles, TrendingUp, Upload } from "lucide-react";
+import {
+  FileText,
+  Printer,
+  RotateCcw,
+  Sparkles,
+  TrendingUp,
+  Upload,
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FinancialSummaryPanel } from "@/components/FinancialSummaryPanel";
 import { ExportPanel } from "@/components/ExportPanel";
@@ -106,11 +113,16 @@ const defaultOwnersEquityData: OwnersEquityData = {
 };
 export default function Dashboard() {
   // const router = useRouter()
-  const [statementType, setStatementType] = useState<StatementType>('income');
-  const [incomeData, setIncomeData] = useState<IncomeStatementData>(defaultIncomeData);
-  const [balanceData, setBalanceData] = useState<BalanceSheetData>(defaultBalanceData);
-  const [cashFlowData, setCashFlowData] = useState<CashFlowData>(defaultCashFlowData);
-  const [equityData, setEquityData] = useState<OwnersEquityData>(defaultOwnersEquityData);
+  const [statementType, setStatementType] = useState<StatementType>("income");
+  const [incomeData, setIncomeData] =
+    useState<IncomeStatementData>(defaultIncomeData);
+  const [balanceData, setBalanceData] =
+    useState<BalanceSheetData>(defaultBalanceData);
+  const [cashFlowData, setCashFlowData] =
+    useState<CashFlowData>(defaultCashFlowData);
+  const [equityData, setEquityData] = useState<OwnersEquityData>(
+    defaultOwnersEquityData,
+  );
   const [transactions, setTransactions] = useState<TransactionData[]>([]);
   const [showOutput, setShowOutput] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
@@ -119,13 +131,13 @@ export default function Dashboard() {
   };
 
   const handleReset = () => {
-    if (statementType === 'income') {
+    if (statementType === "income") {
       setIncomeData(defaultIncomeData);
-    } else if (statementType === 'balance') {
+    } else if (statementType === "balance") {
       setBalanceData(defaultBalanceData);
-    } else if (statementType === 'cashflow') {
+    } else if (statementType === "cashflow") {
       setCashFlowData(defaultCashFlowData);
-    } else if (statementType === 'equity') {
+    } else if (statementType === "equity") {
       setEquityData(defaultOwnersEquityData);
     }
     setShowOutput(false);
@@ -135,25 +147,25 @@ export default function Dashboard() {
     window.print();
   };
 
- const handleDataParsed = (data: ParsedFileData) => {
+  const handleDataParsed = (data: ParsedFileData) => {
     if (data.incomeData) {
-      setIncomeData(prev => ({
+      setIncomeData((prev) => ({
         ...prev,
         ...data.incomeData,
         revenue: { ...prev.revenue, ...data.incomeData?.revenue },
         expenses: { ...prev.expenses, ...data.incomeData?.expenses },
       }));
-      toast.success('Income statement data imported');
+      toast.success("Income statement data imported");
     }
     if (data.balanceData) {
-      setBalanceData(prev => ({
+      setBalanceData((prev) => ({
         ...prev,
         ...data.balanceData,
         assets: { ...prev.assets, ...data.balanceData?.assets },
         liabilities: { ...prev.liabilities, ...data.balanceData?.liabilities },
         equity: { ...prev.equity, ...data.balanceData?.equity },
       }));
-      toast.success('Balance sheet data imported');
+      toast.success("Balance sheet data imported");
     }
     if (data.transactions.length > 0) {
       setTransactions(data.transactions);
@@ -165,9 +177,13 @@ export default function Dashboard() {
   const renderForm = () => {
     switch (statementType) {
       case "income":
-        return <IncomeStatementForm data={incomeData} onChange={setIncomeData} />;
+        return (
+          <IncomeStatementForm data={incomeData} onChange={setIncomeData} />
+        );
       case "balance":
-        return <BalanceSheetForm data={balanceData} onChange={setBalanceData} />;
+        return (
+          <BalanceSheetForm data={balanceData} onChange={setBalanceData} />
+        );
 
       case "cashflow":
         return <CashFlowForm data={cashFlowData} onChange={setCashFlowData} />;
@@ -175,23 +191,30 @@ export default function Dashboard() {
       case "equity":
         return <OwnersEquityForm data={equityData} onChange={setEquityData} />;
       case "summary":
-        return null
+        return null;
       default:
         return null;
     }
   };
-   const renderOutput = () => {
+  const renderOutput = () => {
     switch (statementType) {
-      case 'income':
+      case "income":
         return <IncomeStatementOutput data={incomeData} />;
-      case 'balance':
+      case "balance":
         return <BalanceSheetOutput data={balanceData} />;
-      case 'cashflow':
+      case "cashflow":
         return <CashFlowOutput data={cashFlowData} />;
-      case 'equity':
+      case "equity":
         return <OwnersEquityOutput data={equityData} />;
-      case 'summary':
-        return <FinancialSummaryPanel transactions={transactions} companyName={incomeData.companyName || balanceData.companyName || 'Company'} />;
+      case "summary":
+        return (
+          <FinancialSummaryPanel
+            transactions={transactions}
+            companyName={
+              incomeData.companyName || balanceData.companyName || "Company"
+            }
+          />
+        );
       default:
         return null;
     }
@@ -199,46 +222,61 @@ export default function Dashboard() {
 
   const getStatementLabel = () => {
     switch (statementType) {
-      case 'income': return 'Income Statement';
-      case 'balance': return 'Balance Sheet';
-      case 'cashflow': return 'Cash Flow Statement';
-      case 'equity': return "Statement of Owner's Equity";
-      case 'summary': return 'Financial Summary';
-      default: return 'Statement';
+      case "income":
+        return "Income Statement";
+      case "balance":
+        return "Balance Sheet";
+      case "cashflow":
+        return "Cash Flow Statement";
+      case "equity":
+        return "Statement of Owner's Equity";
+      case "summary":
+        return "Financial Summary";
+      default:
+        return "Statement";
     }
   };
 
   return (
-     <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       <Header />
-      
+
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="no-print">
-            <StatementTypeTabs value={statementType} onChange={(type) => {
-              setStatementType(type);
-              setShowOutput(false);
-            }} />
+            <StatementTypeTabs
+              value={statementType}
+              onChange={(type) => {
+                setStatementType(type);
+                setShowOutput(false);
+              }}
+            />
           </div>
 
-          {statementType === 'summary' ? (
+          {statementType === "summary" ? (
             <div className="space-y-6">
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <h2 className="font-display text-xl font-semibold text-foreground">
                   Financial Summary & Analytics
                 </h2>
-                <ExportPanel 
+                <ExportPanel
                   statementType={statementType}
                   incomeData={incomeData}
                   balanceData={balanceData}
                   cashFlowData={cashFlowData}
                   transactions={transactions}
-                  companyName={incomeData.companyName || balanceData.companyName || 'Company'}
+                  companyName={
+                    incomeData.companyName ||
+                    balanceData.companyName ||
+                    "Company"
+                  }
                 />
               </div>
-              <FinancialSummaryPanel 
+              <FinancialSummaryPanel
                 transactions={transactions}
-                companyName={incomeData.companyName || balanceData.companyName || 'Company'}
+                companyName={
+                  incomeData.companyName || balanceData.companyName || "Company"
+                }
               />
             </div>
           ) : (
@@ -249,9 +287,9 @@ export default function Dashboard() {
                     Enter Financial Data
                   </h2>
                   <div className="flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       onClick={() => setShowUpload(!showUpload)}
                     >
                       <Upload className="h-4 w-4 mr-2" />
@@ -264,14 +302,17 @@ export default function Dashboard() {
                   </div>
                 </div>
 
-                {showUpload && (
-                  <FileUpload onDataParsed={handleDataParsed} />
-                )}
+                {showUpload && <FileUpload onDataParsed={handleDataParsed} />}
 
                 {renderForm()}
 
                 <div className="flex gap-3">
-                  <Button onClick={handleGenerate} variant="default" size="lg" className="flex-1">
+                  <Button
+                    onClick={handleGenerate}
+                    variant="default"
+                    size="lg"
+                    className="flex-1"
+                  >
                     <FileText className="h-4 w-4 mr-2" />
                     Generate Statement
                   </Button>
@@ -284,13 +325,17 @@ export default function Dashboard() {
                 </div>
 
                 {showOutput && (
-                  <ExportPanel 
+                  <ExportPanel
                     statementType={statementType}
                     incomeData={incomeData}
                     balanceData={balanceData}
                     cashFlowData={cashFlowData}
                     transactions={transactions}
-                    companyName={incomeData.companyName || balanceData.companyName || 'Company'}
+                    companyName={
+                      incomeData.companyName ||
+                      balanceData.companyName ||
+                      "Company"
+                    }
                   />
                 )}
               </div>
@@ -324,7 +369,9 @@ export default function Dashboard() {
                           No Statement Generated
                         </h3>
                         <p className="text-sm text-muted-foreground max-w-sm">
-                          Enter your financial data on the left and click "Generate Statement" to create your {getStatementLabel()}.
+                          Enter your financial data on the left and click
+                          "Generate Statement" to create your{" "}
+                          {getStatementLabel()}.
                         </p>
                       </div>
                     )}
@@ -333,7 +380,7 @@ export default function Dashboard() {
                     <PredictionPanel data={incomeData} />
                   </TabsContent>
                   <TabsContent value="forecast" className="mt-6">
-                    <ForecastPanel 
+                    <ForecastPanel
                       incomeData={incomeData}
                       balanceData={balanceData}
                       cashFlowData={cashFlowData}
@@ -353,4 +400,3 @@ export default function Dashboard() {
     </div>
   );
 }
-  

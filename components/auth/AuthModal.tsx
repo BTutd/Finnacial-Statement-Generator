@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { LoginForm } from "./LoginForm";
 import { SignupForm } from "./SignupForm";
 import { ForgetPasswordForm } from "./ForgetPasswordForm";
@@ -32,6 +32,11 @@ export function AuthModal({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md p-0 overflow-hidden border-border">
+        <DialogTitle className="sr-only">
+          {mode === "login" && "Sign In"}
+          {mode === "signup" && "Create Account"}
+          {mode === "forgot" && "Reset Password"}
+        </DialogTitle>
         <AnimatePresence mode="wait">
           <motion.div
             key={mode}

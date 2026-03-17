@@ -69,14 +69,25 @@
   /* Use a much darker value for the main background */
   --background: 224 71% 4%; /* Very deep navy/black */
   --foreground: 213 31% 91%;
-  
-  /* Cards should be slightly lighter than the background to pop */
+
+  /* Card surfaces should be slightly lighter than the background */
   --card: 224 71% 7%; 
   --card-foreground: 213 31% 91%;
 
+  /* Popovers/dropdowns should also be dark (not white) */
+  --popover: 224 71% 8%;
+  --popover-foreground: 213 31% 91%;
+
+  /* Secondary surfaces (panels, forms) should be darker too */
+  --secondary: 224 71% 10%;
+  --secondary-foreground: 213 31% 91%;
+
+  /* Inputs should match the overall dark layout */
+  --input: 224 71% 8%;
+
   /* Muted colors are likely what's making your sections look "Gray" */
   --muted: 223 47% 11%;
-  --muted-foreground: 215.4 16.3% 56.9%; /* Make this lighter so text is readable */
+  --muted-foreground: 215.4 16.3% 56.9%; /* Keep text readable */
 
   --accent: 160 84% 39%;
   --border: 216 34% 17%;

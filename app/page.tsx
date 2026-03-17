@@ -25,6 +25,7 @@ import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/integrations/supabase/client";
+import { AnimatedTicker } from '@/components/AnimatedTicker';
 
 // Animation Configs
 const fadeInUp = {
@@ -187,6 +188,11 @@ export default function LandingPage() {
             animate="animate"
             className="max-w-4xl mx-auto"
           >
+              <div className="absolute inset-0 flex flex-col justify-center gap-6 opacity-[0.18]">
+            <AnimatedTicker />
+            <AnimatedTicker reverse />
+            <AnimatedTicker />
+          </div>
             {/* Badge Fix */}
             <motion.div
               variants={fadeInUp}

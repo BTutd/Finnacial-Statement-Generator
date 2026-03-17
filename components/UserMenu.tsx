@@ -59,26 +59,26 @@ const UserMenu = () => {
     } catch (error) {
       toast.error("Unexpected Error Occured");
     }
-}
-    const getInitials = () => {
-      if (profile?.display_name) {
-        return profile.display_name
-          .split(" ")
-          .map((n) => n[0])
-          .join("")
-          .toUpperCase()
-          .slice(0, 2);
-      }
-      if (profile?.email) {
-        return profile.email[0].toUpperCase();
-      }
-      return "U";
-    };
-    if (isLoading) {
-      return (
-        <div className="h-9 w-9 rounded-full bg-accent-foreground animate-pulse"></div>
-      );
   };
+  const getInitials = () => {
+    if (profile?.display_name) {
+      return profile.display_name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2);
+    }
+    if (profile?.email) {
+      return profile.email[0].toUpperCase();
+    }
+    return "U";
+  };
+  if (isLoading) {
+    return (
+      <div className="h-9 w-9 rounded-full bg-accent-foreground animate-pulse"></div>
+    );
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -93,7 +93,7 @@ const UserMenu = () => {
           <ChevronDown className="h-4 w-4 text-muted-foreground" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-50">
+      <DropdownMenuContent align="end" sideOffset={8} className="w-48 ">
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
