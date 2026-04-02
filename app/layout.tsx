@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Home | FinanceFlow',
-    template: '%s | FinanceFlow', // Replaces %s with the page title
+    default: 'Home - FinanceFlow',
+    template: '%s - FinanceFlow', // Replaces %s with the page title
   },
 };
 
