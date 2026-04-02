@@ -135,10 +135,10 @@ export default function Dashboard() {
       window.location.reload();
     };
 
-    window.addEventListener('popstate', handlePopState);
+    window.addEventListener("popstate", handlePopState);
 
     return () => {
-      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener("popstate", handlePopState);
     };
   }, []);
   const handleGenerate = () => {

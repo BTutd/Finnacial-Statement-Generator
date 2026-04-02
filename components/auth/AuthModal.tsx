@@ -12,7 +12,7 @@ type AuthMode = "login" | "signup" | "forgot";
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  defaultMode?: "login" | "signup";
+  defaultMode: "login" | "signup";
 }
 
 export function AuthModal({

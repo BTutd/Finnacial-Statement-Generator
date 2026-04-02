@@ -1,7 +1,8 @@
 "use client";
-import { supabase } from "@/integrations/supabase/client";
-import { useRouter } from "next/navigation";
+
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export default function AuthCallback() {
@@ -9,39 +10,30 @@ export default function AuthCallback() {
 
   useEffect(() => {
     const handleAuth = async () => {
-      // Check if this is an auth callback (has auth params) or direct navigation
-      const urlParams = new URLSearchParams(window.location.search);
-      const hasAuthParams =
-        urlParams.has("code") ||
-        urlParams.has("state") ||
-        urlParams.has("error");
+      // Only run on client
+      if (typeof window === "undefined") return;
 
-      const {
-        data: { session },
-        error,
-      } = await supabase.auth.getSession();
+      try {
+        // Supabase OAuth flow automatically updates session from URL
+        const { data: { session }, error } = await supabase.auth.getSession();
 
-      if (error) {
-        toast.error("Authentication failed");
-        router.replace("/");
-        return;
-      }
+        if (error) throw error;
 
-      if (session) {
-        // If this is a direct navigation (back button), check if user is already on dashboard
-        if (!hasAuthParams && window.location.pathname === "/auth/callback") {
-          // User pressed back button, redirect to dashboard without adding to history
-          window.location.href = "/dashboard";
-          return;
+        if (session) {
+          toast.success("Successfully signed in");
+          router.replace("/dashboard");
+        } else {
+          router.replace("/");
         }
-        toast.success("Successfully signed in");
-        router.replace("/dashboard");
-      } else {
+      } catch (err) {
+        console.error("OAuth callback error:", err);
+        toast.error("Authentication failed");
         router.replace("/");
       }
     };
+
     handleAuth();
   }, [router]);
 
-  return <></>;
+  return null;
 }
